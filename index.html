@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>La colmena · Liderazgo en escena</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --miel-1:#FDF7EA; --miel-2:#F8EDD8; --miel-3:#EFDCB6; --miel-4:#E5CB9B;
+  --tinta:#3B2E1C; --tinta-2:#7A6A52; --tinta-3:#A2947C;
+  --ambar:#E0912A; --cera:#E7D8BC;
+
+  --f-diseno:#F2B01F;  --f-diseno-2:#E08A12; --f-diseno-3:#C46A0A;
+  --f-sosten:#F4785C;  --f-sosten-2:#E8543A; --f-sosten-3:#C93B26;
+  --f-forma:#35BFAE;   --f-forma-2:#17A091;  --f-forma-3:#0C7F74;
+  --f-selec:#B96FC4;   --f-selec-2:#9C4FA9;  --f-selec-3:#7E3A8C;
+
+  --hexW: calc(min(100vw - 26px, 400px) / 3.66);
+  --hexH: calc(var(--hexW) * 1.1547);
+  --hexG: calc(var(--hexW) * 0.052);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--miel-1); color:var(--tinta);
+  font-family:'Nunito',system-ui,sans-serif; font-size:16.5px; line-height:1.62;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse at 15% -5%, rgba(224,145,42,.13), transparent 55%),
+    radial-gradient(ellipse at 95% 100%, rgba(53,191,174,.10), transparent 50%);
+}
+#app{position:relative;z-index:1;max-width:440px;margin:0 auto;padding:0 13px 60px;min-height:100vh;}
+
+h1,h2{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.015em;line-height:1.08;margin:0;}
+h1{font-size:clamp(33px,8.6vw,41px);}
+h2{font-size:clamp(25px,6.4vw,30px);}
+h3{font-family:'Fraunces',Georgia,serif;font-weight:600;margin:0;}
+p{margin:0 0 1.05em;}
+.lede{font-size:17px;line-height:1.7;}
+.dim{color:var(--tinta-2);}
+.eyebrow{font-size:13px;font-weight:700;color:var(--ambar);margin-bottom:7px;letter-spacing:.01em;}
+
+.screen{display:none;animation:fade .42s ease both;padding-top:28px;}
+.screen.on{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit;}
+.btn{
+  display:block;width:100%;padding:15px 18px;margin-top:20px;
+  background:var(--tinta);color:var(--miel-1);
+  font-family:'Nunito',sans-serif;font-size:15.5px;font-weight:700;
+  border-radius:13px;transition:transform .16s,opacity .2s;
+}
+.btn:active{transform:scale(.985);opacity:.9;}
+.btn:disabled{background:var(--miel-3);color:var(--tinta-3);cursor:default;}
+.btn-amber{background:var(--ambar);color:#3B2510;}
+.btn-ghost{
+  display:block;width:100%;padding:13px;margin-top:10px;background:transparent;
+  border:1.5px solid var(--miel-4);color:var(--tinta-2);
+  font-size:14.5px;font-weight:600;border-radius:13px;
+}
+.btn-mini{
+  display:inline-block;width:auto;padding:9px 15px;margin:0;
+  background:var(--miel-2);border:1.5px solid var(--miel-4);color:var(--tinta-2);
+  font-size:13.5px;font-weight:700;border-radius:20px;
+}
+:focus-visible{outline:2.5px solid var(--ambar);outline-offset:3px;}
+
+/* bienvenida */
+.hero-comb{display:flex;justify-content:center;margin:4px 0 24px;}
+.hero-comb svg{width:min(72vw,280px);height:auto;}
+@keyframes cellIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+.hero-comb polygon{transform-origin:center;transform-box:fill-box;animation:cellIn .6s cubic-bezier(.2,.8,.3,1) both;}
+.welcome-sub{text-align:center;font-size:13.5px;font-weight:700;color:var(--ambar);margin-bottom:8px;}
+.welcome-title{text-align:center;margin-bottom:20px;}
+
+/* ejemplos */
+.rail{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -13px;padding:4px 13px 16px;scrollbar-width:none;}
+.rail::-webkit-scrollbar{display:none;}
+.exc{flex:0 0 80%;scroll-snap-align:center;background:#fff;border:1.5px solid var(--miel-3);border-radius:18px;padding:17px 16px 19px;}
+.exc .minicomb{display:flex;justify-content:center;margin-bottom:14px;}
+.exc h3{font-size:21px;margin:0 0 8px;}
+.exc>p{font-size:14.8px;line-height:1.58;margin:0 0 14px;color:var(--tinta-2);}
+.exrole{display:flex;align-items:center;gap:9px;padding:5px 0;font-size:13.5px;}
+.exrole .d{flex:0 0 11px;height:11px;border-radius:3px;}
+.exrole .rn{flex:1;font-weight:600;}
+.exrole .rq{color:var(--tinta-2);font-size:12.5px;font-weight:600;}
+.practice{background:var(--miel-2);border-radius:14px;padding:14px 16px;margin:0 0 18px;font-size:15.5px;}
+
+/* historias */
+.story-card{
+  width:100%;text-align:left;display:block;background:#fff;
+  border:1.5px solid var(--miel-3);border-radius:18px;padding:16px 16px 17px;margin-bottom:11px;
+  transition:border-color .2s,box-shadow .2s;position:relative;overflow:hidden;
+}
+.story-card .strip{position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--miel-3);}
+.story-card h3{font-size:21px;margin:0 0 6px;}
+.story-card .plot{font-size:12.5px;font-weight:700;color:var(--ambar);margin-bottom:5px;}
+.story-card p{font-size:14.6px;line-height:1.58;margin:0;color:var(--tinta-2);}
+.story-card[aria-pressed="true"]{border-color:var(--ambar);box-shadow:0 0 0 3px rgba(224,145,42,.18);}
+.story-card.done{background:var(--miel-2);}
+.solved{margin-top:11px;padding-top:11px;border-top:1.5px dashed var(--miel-4);font-size:13.5px;color:var(--tinta-2);}
+.solved b{color:var(--tinta);}
+.qdots{display:flex;gap:4px;margin-top:7px;flex-wrap:wrap;}
+.qdots span{height:9px;width:22px;border-radius:5px;}
+.sticky-cta{position:sticky;bottom:0;padding:13px 0 8px;background:linear-gradient(to top,var(--miel-1) 72%,rgba(253,247,234,.92));}
+.sticky-cta .btn{margin-top:0;}
+
+/* interstitial */
+.inter{min-height:74vh;display:flex;flex-direction:column;justify-content:center;padding:24px 2px;}
+.inter .act{font-size:13.5px;font-weight:700;color:var(--ambar);margin-bottom:14px;}
+.inter h2{margin-bottom:16px;}
+.inter p{font-size:17.5px;line-height:1.74;}
+.inter .cue{color:var(--tinta-2);font-size:15.5px;}
+
+/* colmena */
+.combhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;}
+.progress{font-size:14.5px;font-weight:700;color:var(--tinta);}
+.progress em{font-style:normal;color:var(--ambar);}
+.maplink{font-size:13px;font-weight:700;color:var(--tinta-2);border:1.5px solid var(--miel-4);border-radius:20px;padding:7px 12px;background:#fff;}
+.pips{display:flex;gap:5px;margin-bottom:14px;}
+.pip{width:100%;height:5px;background:var(--miel-3);border-radius:3px;transition:background .3s;}
+.pip.f{background:var(--ambar);}
+
+.comb{
+  display:flex;flex-direction:column;align-items:flex-start;
+  width:calc(3 * var(--hexW) + 2 * var(--hexG) + (var(--hexW) + var(--hexG)) * 0.5);
+  margin:0 auto 8px;
+}
+.combrow{display:flex;gap:var(--hexG);}
+.combrow+.combrow{margin-top:calc(var(--hexH) * -0.245);}
+.combrow.off{margin-left:calc(var(--hexW) * 0.5 + var(--hexG) * 0.5);}
+.hex{
+  width:var(--hexW);height:var(--hexH);
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  background:var(--cera);
+  display:flex;align-items:center;justify-content:center;text-align:center;padding:0 9%;
+  font-family:'Nunito',sans-serif;font-size:calc(var(--hexW) * .123);font-weight:700;
+  line-height:1.24;color:var(--tinta);
+  transition:background .34s ease,color .34s ease,transform .18s ease;
+}
+.hex:active{transform:scale(.955);}
+.hex.picked{color:#fff;}
+.hex.just{animation:pop .55s cubic-bezier(.2,.9,.3,1) both;}
+@keyframes pop{0%{transform:scale(1)}35%{transform:scale(1.13)}100%{transform:scale(1)}}
+.hexhint{text-align:center;font-size:13px;color:var(--tinta-2);margin:4px 0 16px;line-height:1.5;}
+.hexhint b{color:var(--tinta);}
+
+/* reel — el relato bajo el panal */
+#storyList{padding-bottom:6px;}
+.reel{margin-bottom:14px;background:#fff;border:1.5px solid var(--miel-3);border-radius:18px;padding:16px 16px 17px;margin-bottom:8px;}
+.reel.climax{border-color:var(--f-sosten);box-shadow:0 0 0 3px rgba(244,120,92,.13);}
+.reel.final{border-color:var(--ambar);box-shadow:0 0 0 3px rgba(224,145,42,.16);}
+.reel-act{font-size:12.5px;font-weight:700;color:var(--ambar);margin-bottom:6px;}
+.reel h3{font-size:19px;margin:0 0 9px;}
+.reel-text{font-size:15.2px;line-height:1.62;color:var(--tinta-2);margin:0;}
+.reel-add{margin-top:14px;padding-top:13px;border-top:1.5px dashed var(--miel-4);}
+.reel-add .lbl{font-size:12.5px;font-weight:700;color:var(--tinta-3);margin-bottom:9px;}
+.contrib{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;animation:slideIn .45s ease both;}
+@keyframes slideIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+.contrib .cd{flex:0 0 10px;height:10px;border-radius:3px;margin-top:6px;}
+.contrib .ct{flex:1;font-size:14.4px;line-height:1.5;}
+.contrib .ct b{display:block;font-size:12.5px;font-weight:800;margin-bottom:1px;}
+.contbar{position:sticky;bottom:0;padding:11px 0 8px;background:linear-gradient(to top,var(--miel-1) 72%,rgba(253,247,234,.92));}
+.contbar .btn{margin-top:0;}
+
+/* burst + reacciones */
+.burst{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;pointer-events:none;}
+.burst span{
+  font-family:'Fraunces',serif;font-weight:700;font-size:clamp(38px,13vw,62px);
+  animation:burstIn 1.15s cubic-bezier(.2,.8,.3,1) both;text-align:center;padding:0 20px;
+}
+@keyframes burstIn{
+  0%{opacity:0;transform:scale(.55)}
+  22%{opacity:1;transform:scale(1.04)}
+  62%{opacity:1;transform:scale(1)}
+  100%{opacity:0;transform:scale(1.16) translateY(-26px)}
+}
+.react{position:fixed;z-index:61;pointer-events:none;font-size:27px;animation:floatUp 1.5s ease-out both;}
+@keyframes floatUp{
+  0%{opacity:0;transform:translateY(10px) scale(.6)}
+  18%{opacity:1;transform:translateY(-14px) scale(1.1)}
+  100%{opacity:0;transform:translateY(-160px) scale(.85)}
+}
+
+/* panel */
+.scrim{position:fixed;inset:0;background:rgba(59,46,28,.42);z-index:40;opacity:0;pointer-events:none;transition:opacity .28s;}
+.scrim.on{opacity:1;pointer-events:auto;}
+.sheet{
+  position:fixed;left:0;right:0;bottom:0;z-index:50;max-width:440px;margin:0 auto;
+  max-height:86vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  background:var(--miel-1);border-top:5px solid var(--cera);border-radius:22px 22px 0 0;
+  padding:20px 18px calc(30px + env(safe-area-inset-bottom));
+  transform:translateY(103%);visibility:hidden;
+  transition:transform .32s cubic-bezier(.2,.8,.3,1),visibility .32s;
+}
+.sheet.on{transform:none;visibility:visible;}
+.sheet h3{font-size:27px;margin:0 0 4px;padding-right:34px;}
+.keywords{font-size:13.5px;font-weight:700;margin-bottom:16px;}
+.srow{display:flex;gap:11px;margin-bottom:13px;align-items:flex-start;}
+.srow .g{flex:0 0 21px;height:21px;margin-top:2px;}
+.srow .g svg{width:21px;height:21px;display:block;}
+.srow .t{flex:1;font-size:14.8px;line-height:1.55;}
+.srow .t b{display:block;font-size:12.5px;font-weight:800;color:var(--tinta-3);margin-bottom:1px;}
+.more{
+  display:flex;align-items:center;gap:9px;width:100%;padding:12px 0;margin-top:2px;
+  border-top:1.5px solid var(--miel-3);font-size:14px;font-weight:700;color:var(--tinta-2);
+}
+.more .plus{width:21px;height:21px;border:1.5px solid var(--tinta-3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;line-height:1;}
+.longtext{display:none;}
+.longtext.on{display:block;padding-bottom:6px;}
+.longtext h4{font-size:12.5px;font-weight:800;color:var(--ambar);margin:15px 0 4px;}
+.longtext p{font-size:14.8px;line-height:1.66;margin:0;}
+.sheetclose{position:absolute;top:16px;right:16px;font-size:23px;line-height:1;color:var(--tinta-2);padding:2px 8px;}
+.maprow{display:flex;gap:10px;padding:10px 0;border-bottom:1.5px solid var(--miel-2);align-items:baseline;}
+.maprow .dot{flex:0 0 10px;height:10px;border-radius:3px;transform:translateY(-1px);}
+.maprow .n{flex:1;font-size:14.5px;font-weight:600;}
+.maprow .k{flex:0 0 44%;font-size:12.5px;color:var(--tinta-2);text-align:right;line-height:1.45;font-weight:600;}
+
+/* diagnóstico */
+.diag-comb{display:flex;justify-content:center;margin:2px 0 18px;}
+.mirada-label{text-align:center;font-size:13px;font-weight:700;color:var(--ambar);margin-bottom:4px;}
+#miradaName{text-align:center;margin-bottom:14px;}
+.qgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0 6px;}
+.qcard{border-radius:14px;padding:11px 12px;color:#fff;}
+.qcard .qn{font-size:14.5px;font-weight:800;line-height:1.2;}
+.qcard .qr{font-size:11.5px;font-weight:600;opacity:.9;margin-top:2px;}
+.paleta{display:flex;height:16px;border-radius:9px;overflow:hidden;margin:14px 0 6px;}
+.paleta span{flex:1;}
+.readline{background:#fff;border:1.5px solid var(--miel-3);border-radius:16px;padding:15px 16px;margin:16px 0 4px;font-size:15.4px;line-height:1.6;}
+.readline b{color:var(--ambar);}
+.frame-open{font-size:16.5px;font-weight:700;color:var(--ambar);margin:24px 0 12px;}
+.fragments p{font-size:16px;line-height:1.72;margin:0 0 1em;}
+.frame-close{font-size:16.5px;font-weight:700;color:var(--ambar);margin:4px 0 26px;}
+.sectitle{font-family:'Fraunces',serif;font-size:24px;font-weight:600;margin:30px 0 3px;padding-top:20px;border-top:1.5px solid var(--miel-3);}
+.sectitle+.sub{font-size:14px;color:var(--tinta-2);margin-bottom:15px;}
+.off-item{display:flex;gap:11px;margin-bottom:14px;align-items:flex-start;}
+.off-item .oh{flex:0 0 16px;height:18px;background:var(--miel-3);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);margin-top:3px;}
+.off-item p{font-size:14.6px;line-height:1.58;margin:0;color:var(--tinta-2);}
+.off-item p b{color:var(--tinta);}
+.plan-item{background:#fff;border:1.5px solid var(--miel-3);border-radius:16px;padding:14px 15px;margin-bottom:10px;}
+.plan-item .ph{display:flex;align-items:center;gap:9px;margin-bottom:6px;}
+.plan-item .ph .pd{width:11px;height:11px;border-radius:3px;}
+.plan-item .ph b{font-size:15px;font-weight:800;}
+.plan-item p{font-size:14.5px;line-height:1.58;margin:0;color:var(--tinta-2);}
+.transit{background:var(--miel-2);border-radius:16px;padding:15px 16px;margin-top:6px;}
+.transit p{font-size:15.2px;line-height:1.64;margin:0;}
+
+/* diagnósticos acumulados */
+.dgcard{background:#fff;border:1.5px solid var(--miel-3);border-radius:18px;padding:15px 16px;margin-bottom:12px;}
+.dgcard .top{display:flex;gap:12px;align-items:center;margin-bottom:10px;}
+.dgcard .top .mc{flex:0 0 62px;}
+.dgcard .top .ti h3{font-size:18px;margin:0 0 2px;}
+.dgcard .top .ti .st{font-size:12.5px;font-weight:700;color:var(--ambar);}
+.dgcard .ql{font-size:13.8px;color:var(--tinta-2);line-height:1.55;}
+.dgcard .ql b{color:var(--tinta);}
+.dgcard .rd{margin-top:10px;padding-top:10px;border-top:1.5px dashed var(--miel-4);font-size:14.3px;line-height:1.56;}
+.cross{background:var(--miel-2);border-radius:18px;padding:16px;margin-bottom:14px;}
+.cross h3{font-size:19px;margin:0 0 9px;}
+.cross p{font-size:14.6px;line-height:1.6;margin:0 0 .8em;}
+.cross p:last-child{margin:0;}
+.empty{text-align:center;color:var(--tinta-2);padding:30px 10px;font-size:15px;}
+
+@media print{
+  @page{margin:14mm;}
+  body{background:#fff;}
+  body::before{display:none;}
+  #app{max-width:none;padding:0;}
+  .btn,.btn-ghost,.btn-mini,.contbar,.sticky-cta,.maplink,.sheet,.scrim,.hexhint,.burst,.react{display:none!important;}
+  .diag-comb svg{width:180px!important;}
+  .diag-comb svg polygon[data-off="1"]{fill:#e4e4e4!important;}
+  .qcard,.plan-item,.readline,.transit,.dgcard,.cross{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+<section class="screen on" id="s-welcome">
+  <div class="hero-comb" id="heroComb"></div>
+  <div class="welcome-sub">Liderazgo en escena</div>
+  <h1 class="welcome-title">La colmena</h1>
+  <p class="lede">Ninguna película la sostiene una sola persona. Detrás de cada historia hay decenas de liderazgos trabajando a la vez: el que decide qué se ve, el que decide qué se corta, el que calcula el riesgo, el que elige a quién poner frente a cámara.</p>
+  <p class="lede">La historia existe porque todos esos liderazgos se apoyan entre sí, como las celdas de un panal. Aquí vas a construir la tuya, rol por rol, frente a un conflicto que cualquiera reconoce.</p>
+  <button class="btn" data-go="s-examples">Empezar</button>
+</section>
+
+<section class="screen" id="s-examples">
+  <h2>Tres equipos, el mismo encargo</h2>
+  <div class="practice" id="practicePremise"></div>
+  <p style="font-size:15.5px;color:var(--tinta-2)">Ninguno eligió los mismos cinco roles. Ninguno terminó contando lo mismo.</p>
+  <div class="rail" id="exampleRail"></div>
+  <p style="font-size:15.5px;color:var(--tinta-2);margin-top:2px">No hay una combinación correcta. Hay combinaciones que hacen posibles unas historias y no otras.</p>
+  <button class="btn" data-go="s-stories">Construir mi colmena</button>
+</section>
+
+<section class="screen" id="s-stories">
+  <h2>¿Qué historia te toca resolver?</h2>
+  <p style="font-size:15.5px;color:var(--tinta-2);margin-bottom:20px">Cuatro conflictos que el cine cuenta desde siempre, y que cualquiera reconoce fuera de la pantalla.</p>
+  <div id="historyBar"></div>
+  <div id="storyList"></div>
+  <div class="sticky-cta"><button class="btn" id="storyGo" disabled>Comenzar esta historia</button></div>
+</section>
+
+<section class="screen" id="s-inter">
+  <div class="inter">
+    <div class="act" id="interAct"></div>
+    <h2 id="interTitle"></h2>
+    <div id="interBody"></div>
+    <button class="btn" id="interGo">Continuar</button>
+  </div>
+</section>
+
+<section class="screen" id="s-comb">
+  <div class="combhead">
+    <div class="progress" id="progressTxt"></div>
+    <button class="maplink" id="mapBtn">Mapa de roles</button>
+  </div>
+  <div class="pips" id="pips"></div>
+  <div class="comb" id="combGrid"></div>
+  <p class="hexhint">Un toque para <b>conocer</b> el rol. Doble toque para <b>elegirlo</b>.</p>
+  <div class="reel" id="reel"></div>
+  <div class="contbar"><button class="btn" id="actGo" style="display:none"></button></div>
+</section>
+
+<section class="screen" id="s-diag">
+  <div class="diag-comb" id="diagComb"></div>
+  <div class="mirada-label">Tu mirada</div>
+  <h1 id="miradaName"></h1>
+  <div class="qgrid" id="qgrid"></div>
+  <div class="paleta" id="paleta"></div>
+  <div class="readline" id="readline"></div>
+  <p id="miradaDesc" style="font-size:16px;line-height:1.72;margin-top:18px"></p>
+
+  <div class="frame-open" id="frameOpen"></div>
+  <div class="fragments" id="fragments"></div>
+  <div class="frame-close" id="frameClose"></div>
+
+  <div class="sectitle">Tu plan de rodaje</div>
+  <div class="sub">Seis cualidades, seis prácticas concretas para sostenerlas fuera de la pantalla.</div>
+  <div id="planList"></div>
+
+  <div class="sectitle">Fuera de campo</div>
+  <div class="sub">Lo que esta mirada decidió no filmar. Elegir un encuadre siempre deja algo respirando afuera.</div>
+  <div id="offList"></div>
+
+  <div class="sectitle">Cómo transitar</div>
+  <div class="sub">Una pista para la próxima vez que armes una colmena.</div>
+  <div class="transit"><p id="transitTxt"></p></div>
+
+  <button class="btn" id="dlBtn">Descargar diagnóstico</button>
+  <button class="btn btn-amber" id="homeBtn">Volver al inicio para resolver otra historia</button>
+  <button class="btn-ghost" id="goGallery">Ver mis diagnósticos</button>
+</section>
+
+<section class="screen" id="s-gallery">
+  <h2>Mis diagnósticos</h2>
+  <p style="font-size:15.5px;color:var(--tinta-2);margin-bottom:18px">Cada trama que resolviste, y la mezcla de cualidades con que la sostuviste.</p>
+  <div id="galleryBody"></div>
+  <button class="btn" data-go="s-stories">Volver a las historias</button>
+  <button class="btn-ghost" id="clearBtn">Limpiar todos mis resultados</button>
+</section>
+
+</div>
+
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true">
+  <button class="sheetclose" id="sheetClose" aria-label="Cerrar">×</button>
+  <div id="sheetBody"></div>
+</div>
+
+<script>
+/* ═════════ FAMILIAS ═════════ */
+const FAM = {
+  diseno:   {name:'Diseño',    hex:['#F2B01F','#E08A12','#C46A0A']},
+  sosten:   {name:'Sostén',    hex:['#F4785C','#E8543A','#C93B26']},
+  forma:    {name:'Forma',     hex:['#35BFAE','#17A091','#0C7F74']},
+  seleccion:{name:'Selección', hex:['#B96FC4','#9C4FA9','#7E3A8C']}
+};
+const NEUTRAL = '#E7D8BC';
+
+/* ═════════ ROLES ═════════ */
+const ROLES = [
+{id:'director',n:'Director',fam:'diseno',fi:0,q:'Visión',d:['Conjunto','Coherencia'],
+ s:['Sostiene la imagen completa de la película mientras cada equipo ve solo su fragmento.',
+    'Da claridad de propósito sin necesidad de controlar cada tarea.',
+    'La historia se ordena alrededor de una imagen completa del conjunto.',
+    'El sentido total se arma solo, entre las partes, sin que nadie lo sostenga.'],
+ L:['No opera la cámara ni escribe una sola línea de diálogo, y aun así cada plano de la película pasa por su decisión. Su trabajo es sostener en la cabeza una imagen completa de la obra terminada mientras todos los demás departamentos solo ven su fragmento — el sonidista su pista, el vestuarista su percha — y usar esa imagen como criterio para aceptar o rechazar cada propuesta que le llega. Dirige actuaciones, pero antes que eso dirige la coherencia: decide qué versión de la verdad, entre las diez que ofrece cada toma, es la que la película necesita contar.',
+    'Es la autoridad que no nace del control operativo sino de la claridad de una visión que se sostiene incluso cuando nadie a su alrededor puede verla completa todavía. Un líder con esta cualidad no necesita revisar cada tarea para que un propósito atraviese a un equipo entero; necesita que su gente confíe en que él sí ve el corte final, aunque hoy solo estén filmando la escena catorce de ciento veinte.'],
+ c:'Aparece un norte. Deja de ser una suma de reacciones y empieza a tener destino.',
+ a:'La visión entra primero, y con ella la pregunta que ordena todo lo demás: qué historia es esta, en realidad, más allá de lo que el conflicto inmediato deja ver. Cada decisión que sigue se mide contra esa imagen completa, incluso cuando el resto del equipo todavía no la comparte del todo.',
+ o:'La historia avanzó igual, escena por escena, pero sin nadie sosteniendo la imagen completa de hacia dónde iba el conjunto. Hay líderes que prefieren confiar en que el sentido aparezca solo, entre las partes, antes que imponerlo desde arriba.',
+ p:'Antes de abrir el correo el lunes, escribe en una sola frase cómo se ve esto terminado. Guárdala. El viernes, léela de nuevo y pregúntate si las cinco decisiones de la semana la acercaron o la alejaron.'},
+
+{id:'productor',n:'Productor',fam:'sosten',fi:0,q:'Recursos',d:['Límite','Negociación'],
+ s:['Decide qué es financiable y qué escena se sacrifica cuando el dinero no alcanza.',
+    'Convierte la escasez en decisión creativa, no en excusa.',
+    'El límite se nombra pronto, y cada ambición se mide contra lo real.',
+    'Nadie nombra el límite hasta que se vuelve inevitable.'],
+ L:['Negocia con la realidad que hace posible lo que el guion exige: consigue el dinero, cierra los contratos, decide qué escena se filma y cuál se recorta cuando el presupuesto no alcanza. No inventa la historia, la hace financiable, y en esa tarea toma decisiones creativas tan determinantes como las del director — solo que las suyas se disfrazan de números.',
+    'Es la administración del límite como acto creativo. Un líder con esta cualidad no ve la escasez como excusa sino como el material real con el que hay que trabajar, y sabe que la habilidad de conseguir recursos donde no los hay — o de decidir con honestidad qué no se puede hacer — es tan parte del liderazgo como cualquier visión inspiradora.'],
+ c:'El límite se dice en voz alta. La ambición deja de prometer lo que no puede pagar.',
+ a:'Antes de que nadie pregunte qué es posible, alguien ya está calculando con qué se cuenta y con qué no. Esa aritmética silenciosa decide qué versión de la ambición cabe en el presupuesto real, y convierte cada límite en una decisión creativa en lugar de en una derrota.',
+ o:'Nadie hizo explícito el límite de lo posible, y la historia avanzó como si los recursos fueran infinitos. Hay líderes que prefieren no nombrar la escasez hasta que se vuelve inevitable.',
+ p:'Una vez por semana, di en voz alta —a tu equipo o a ti mismo— qué no vas a poder hacer con lo que tienes. Nombrarlo temprano es más barato que descubrirlo tarde.'},
+
+{id:'guionista',n:'Guionista',fam:'diseno',fi:1,q:'Estructura',d:['Consecuencia','Sistema'],
+ s:['Diseña por qué algo que pasa al final solo funciona por algo sembrado al principio.',
+    'Piensa en causas y efectos que tardan meses en volverse visibles.',
+    'Lo que ocurre ahora se lee como consecuencia de algo sembrado antes.',
+    'Se resuelve lo urgente sin diseñar lo que evita que vuelva a aparecer.'],
+ L:['Construye, antes de que exista un solo plano, la arquitectura invisible sobre la que todo el rodaje trabaja sin saberlo del todo: por qué la escena cuarenta solo funciona porque algo ocurrió, casi sin ruido, en la escena cuatro. Piensa en causas y consecuencias que se activan sesenta páginas después de haberse sembrado.',
+    'Es el pensamiento en sistemas. Un líder con esta cualidad entiende que una decisión tomada hoy es la causa oculta de un problema — o de una ventaja — que solo se hará visible dentro de seis meses, y diseña sus movimientos pensando en esa distancia, no en el efecto inmediato.'],
+ c:'Lo que pasa hoy deja de ser azar. Alguien ve la causa que se sembró meses atrás.',
+ a:'Alguien ya trazó, sin decirlo, la causa que hoy produce esta consecuencia. La historia deja de sentirse como una serie de reacciones sueltas y empieza a leerse como una arquitectura: lo que ocurre ahora estaba sembrado antes, aunque casi nadie lo haya notado en su momento.',
+ o:'Las escenas ocurrieron una tras otra sin que nadie estuviera pensando en la causa lejana de cada consecuencia. Hay líderes que prefieren resolver lo urgente antes que diseñar la arquitectura que evita que ese urgente vuelva a aparecer.',
+ p:'Cada vez que apagues un incendio, dedica diez minutos a escribir qué decisión de hace tres meses lo encendió. En un trimestre vas a tener el mapa de tus incendios repetidos.'},
+
+{id:'fotografia',n:'Director de Fotografía',fam:'forma',fi:0,q:'Perspectiva',d:['Encuadre','Ángulo'],
+ s:['Decide qué entra en cuadro, qué se deja fuera y desde qué ángulo se mira.',
+    'Sabe que cómo se presenta un problema ya decide cómo se va a sentir.',
+    'El mismo hecho, mirado distinto, deja de ser el mismo hecho.',
+    'Los hechos se cuentan sin que nadie decida a propósito el ángulo.'],
+ L:['Decide desde dónde se mira. Qué entra en el encuadre, qué se deja fuera, si la luz cae dura o difusa, si la cámara está a la altura de los ojos del personaje o lo mira desde arriba. Dos directores de fotografía distintos pueden filmar la misma escena, con el mismo guion, y producir dos películas emocionalmente opuestas solo por dónde pusieron la cámara.',
+    'Es el poder, casi nunca nombrado, de encuadrar una situación. Un líder con esta cualidad sabe que la manera de presentar un problema — qué se incluye, qué se omite, desde qué ángulo se cuenta — ya está decidiendo buena parte de cómo su equipo va a sentirlo y a resolverlo.'],
+ c:'Cambia el ángulo, y el problema deja de tener la forma que tenía.',
+ a:'El mismo hecho, mirado desde otro ángulo, deja de ser el mismo hecho. Alguien decide qué queda dentro del encuadre y qué se recorta fuera de él, y esa decisión — rara vez discutida en voz alta — termina pesando tanto como cualquier estrategia declarada.',
+ o:'Los hechos se contaron sin que nadie decidiera de forma consciente desde qué ángulo mirarlos. Hay líderes que prefieren dejar que la situación se muestre tal cual llega, sin intervenir en el encuadre.',
+ p:'Antes de presentar un problema, escríbelo de dos maneras opuestas: una que lo vuelva amenaza, otra que lo vuelva oportunidad. Elige cuál cuentas, sabiendo que estás eligiendo.'},
+
+{id:'editor',n:'Editor',fam:'seleccion',fi:0,q:'Priorización',d:['Selección','Ritmo'],
+ s:['Decide qué se queda, cuando nueve de cada diez tomas terminan descartadas.',
+    'Corta sin culpa para que lo esencial tenga ritmo, no ruido.',
+    'Solo una fracción sobrevive al corte, y esa selección le da ritmo a todo.',
+    'Todo se conserva, sin que nadie decida qué sobraba.'],
+ L:['Trabaja después de que todo ya ocurrió, con material ajeno, y decide qué se queda: de cada diez tomas filmadas, nueve suelen terminar descartadas en la sala de montaje. No añade nada al material — solo corta — y sin embargo esa sustracción es la que le da ritmo a la película, o la condena a ahogarse en su propia información.',
+    'Es la priorización sin culpa. Un líder con esta cualidad entiende que casi todo lo que su equipo produjo con esfuerzo genuino no puede quedarse en la versión final, y que la habilidad de cortar sin sentimentalismo es la que separa una idea con ritmo de una idea que se ahoga en su propio detalle.'],
+ c:'Algo se corta, y lo que queda respira. Aparece el ritmo.',
+ a:'De todo lo que se filmó, solo una fracción sobrevive al corte final, y esa selección — más que cualquier otra decisión — es la que le da ritmo a lo que queda. Cortar sin culpa termina pesando tanto como filmar con ambición.',
+ o:'Todo lo que se filmó quedó dentro, sin que nadie decidiera qué sobraba. Hay líderes que prefieren conservarlo todo antes que arriesgarse a cortar algo que en el momento parecía imprescindible.',
+ p:'Cada viernes elimina una cosa de tu lista: un proyecto, una reunión, un compromiso. No la pospongas — quítala. Anota qué pasó la semana siguiente por no haberla hecho.'},
+
+{id:'produccion',n:'Diseñador de Producción',fam:'diseno',fi:2,q:'Cultura',d:['Contexto','Ambiente'],
+ s:['Construye el mundo — objetos, espacios, textura — antes de que empiece la historia.',
+    'Diseña el contexto que vuelve naturales ciertas conductas, sin pedirlas en voz alta.',
+    'El ambiente ya estaba decidido antes de la primera decisión visible.',
+    'La historia ocurre en un espacio que nadie construyó a propósito.'],
+ L:['Construye el mundo antes de que empiece la historia: la textura exacta de una pared, el desorden calculado de un escritorio, la época que se respira en un objeto puesto sobre una mesa sin que nadie lo señale. El espectador nunca lo nota de forma consciente, y sin embargo confía en ese mundo sin preguntarse por qué.',
+    'Es el diseño de la cultura como contexto invisible. Un líder con esta cualidad entiende que las decisiones de su equipo no ocurren en el vacío sino dentro de un ambiente que él mismo construyó — con sus rituales, sus objetos, sus espacios — y que ese ambiente vuelve naturales ciertas conductas mucho antes de que se pidan en voz alta.'],
+ c:'El ambiente empieza a trabajar solo. Ciertas conductas dejan de tener que pedirse.',
+ a:'El ambiente en el que ocurre esta historia ya estaba decidido antes de que nadie tomara la primera decisión visible. Ese contexto — construido con cuidado o dejado al azar — es el que vuelve naturales ciertas conductas, sin que haga falta pedirlas en voz alta.',
+ o:'La historia ocurrió en un espacio que nadie construyó a propósito. Hay líderes que prefieren que el contexto se acomode solo, sin dedicar tiempo a diseñarlo de antemano.',
+ p:'Elige un ritual pequeño y sostenlo tres meses sin excepción: cómo empieza la reunión, cómo se celebra un cierre, qué se dice cuando alguien se equivoca. La cultura se construye con repetición, no con discursos.'},
+
+{id:'casting',n:'Director de Casting',fam:'seleccion',fi:1,q:'Discernimiento',d:['Lectura','Aptitud'],
+ s:['Encuentra a la persona cuya sola presencia ya contiene lo que el papel necesita.',
+    'Reconoce en las personas capacidades que ellas mismas no han nombrado.',
+    'Alguien queda en el lugar correcto antes de saber que lo era.',
+    'Los roles se llenan sin esa lectura fina de quién encaja con qué.'],
+ L:['No inventa personajes: encuentra a la persona cuya sola presencia ya contiene, sin necesidad de actuación, lo que el papel necesita. Ve en un actor una aptitud que ni el actor mismo había nombrado todavía, y esa lectura — hecha en minutos, a veces en segundos — determina buena parte de si la película va a funcionar.',
+    'Es el discernimiento humano entrenado. Un líder con esta cualidad reconoce en las personas capacidades que ellas mismas no han identificado, y entiende que poner a alguien en el lugar correcto pesa, casi siempre, más que cualquier entrenamiento posterior.'],
+ c:'Alguien queda donde tenía que estar. La historia encuentra quién la cargue.',
+ a:'Alguien miró a la persona correcta antes de que ella misma supiera que lo era. Esa lectura — hecha casi sin palabras, en el primer minuto de conversación — termina definiendo si el resto de la historia encuentra a quién contarle su peso.',
+ o:'Los roles se llenaron sin esa lectura fina de quién encajaba con qué. Hay líderes que prefieren trabajar con quien ya está disponible antes que detenerse a buscar a quien encaja mejor.',
+ p:'Una vez al mes, dile a alguien de tu equipo una capacidad suya que todavía no ha usado en su rol actual. No como elogio: como propuesta concreta de dónde ponerla a trabajar.'},
+
+{id:'vestuario',n:'Diseñador de Vestuario',fam:'seleccion',fi:2,q:'Identidad',d:['Imagen','Presentación'],
+ s:['El personaje dice algo con lo que lleva puesto antes de decir una sola palabra.',
+    'Cuida cómo se presenta una idea antes de que se conozca su contenido.',
+    'La manera de presentarse ya está diciendo quién es esta historia.',
+    'Nadie cuida la superficie, y se confía en que el fondo hable solo.'],
+ L:['Entiende que antes de que un personaje diga una sola palabra, ya dijo algo con lo que lleva puesto. Una chaqueta gastada en los codos cuenta una historia de clase; un color elegido con precisión anticipa un estado de ánimo. El vestuario habla primero y en silencio.',
+    'Es el liderazgo de la identidad visible. Un líder con esta cualidad sabe que la manera en que una idea, un equipo o una marca se presentan — antes de que nadie conozca su contenido real — ya está comunicando algo, y cuida esa primera imagen con la misma seriedad que cuida el fondo.'],
+ c:'La historia empieza a decir quién es antes de explicarse.',
+ a:'Antes de que nadie explicara nada, la manera en que esta historia se presentó ya estaba diciendo quién es. La identidad visible — lo que se elige mostrar antes de que se conozca el contenido — empieza a trabajar en silencio, desde el primer segundo.',
+ o:'Nadie cuidó cómo se presentaba esta historia antes de que se conociera su contenido. Hay líderes que confían en que el fondo hable por sí solo, sin necesidad de cuidar la superficie.',
+ p:'Antes de mandar algo importante, dedica diez minutos a cómo se ve, no a qué dice. El asunto del correo, la primera diapositiva, la primera frase. Es lo único que muchos van a leer.'},
+
+{id:'compositor',n:'Compositor',fam:'forma',fi:2,q:'Tono emocional',d:['Ánimo','Sensación'],
+ s:['Modula lo que se va a sentir antes de que se sepa por qué se siente.',
+    'Percibe el ánimo de una sala antes de que nadie lo diga en voz alta.',
+    'El tono se trabaja en silencio y decide cómo se siente todo lo demás.',
+    'Los hechos ocurren sin que nadie intervenga en cómo se sienten.'],
+ L:['Trabaja con lo que no se ve: el silencio que antecede al grito, la nota que anticipa el peligro tres segundos antes de que aparezca en pantalla. Nunca ilustra lo que ya está ahí — modula lo que el espectador va a sentir antes incluso de saber por qué lo siente.',
+    'Es la inteligencia para modular el ánimo colectivo sin necesidad de nombrar lo que está pasando. Un líder con esta cualidad percibe el tono emocional de una sala antes de que nadie lo diga en voz alta, y sabe intervenir ahí — con un gesto, con un silencio, con una pausa — antes de que haga falta una conversación explícita.'],
+ c:'Alguien lee el ánimo de la sala y lo mueve, sin nombrarlo.',
+ a:'Hay un ánimo que se instala antes de que nadie lo nombre, y alguien lo percibe primero. Ese tono — trabajado en silencio, casi nunca discutido en una reunión — termina decidiendo cómo se siente esta historia por dentro, más allá de lo que efectivamente ocurre.',
+ o:'Los hechos ocurrieron sin que nadie trabajara el ánimo con el que se recibían. Hay líderes que prefieren que los hechos hablen solos, sin intervenir en cómo se sienten.',
+ p:'Al entrar a una reunión, antes de hablar, nombra para ti el ánimo que hay en la sala. Cansancio, prisa, miedo, entusiasmo. Ajusta tu primera frase a eso, no a tu agenda.'},
+
+{id:'stunts',n:'Coordinador de Stunts',fam:'sosten',fi:2,q:'Riesgo',d:['Cálculo','Límite seguro'],
+ s:['Diseña el peligro para que parezca real, sin dejar de ser controlado.',
+    'Sabe hasta dónde tensar una decisión arriesgada antes de que se rompa.',
+    'El riesgo se calcula antes de tomarlo, sin perder capacidad de sorprender.',
+    'Se evita la exposición antes que arriesgarse a un cálculo que falle.'],
+ L:['Diseña el peligro para que parezca real sin serlo: calcula cada movimiento, ensaya decenas de veces, protege al actor con un rigor casi invisible, y solo entonces permite que algo luzca temerario frente a cámara. Su trabajo no es evitar el riesgo — es hacerlo manejable sin quitarle la sensación de vértigo.',
+    'Es la distancia exacta entre la audacia y la imprudencia. Un líder con esta cualidad sabe hasta dónde tensar una decisión arriesgada antes de que la cuerda se rompa, y entiende que la temeridad bien calculada — no la prudencia excesiva ni el descuido — es la que produce los mejores resultados.'],
+ c:'Se toma un riesgo, pero medido. La historia se atreve sin romperse.',
+ a:'Alguien calculó el riesgo antes de tomarlo, ensayó lo que parece improvisado, midió hasta dónde se podía tensar la cuerda sin romperla. Esa temeridad calculada — nunca imprudente, nunca tímida — es la que le da a esta historia su capacidad de sorprender sin quebrarse.',
+ o:'Nadie calculó de forma explícita cuánto riesgo valía la pena tomar. Hay líderes que prefieren evitar la exposición antes que arriesgarse a un cálculo que podría salir mal.',
+ p:'Antes de una decisión arriesgada, escribe qué es lo peor que puede pasar y qué harías si pasa. Si tienes respuesta, el riesgo ya no es temeridad. Si no la tienes, todavía no es momento.'},
+
+{id:'linea',n:'Productor de Línea',fam:'sosten',fi:1,q:'Ejecución',d:['Constancia','Resolución'],
+ s:['Resuelve el imprevisto del día para que la escena ocurra a la hora exacta.',
+    'Ejecuta con obstinación los detalles pequeños que nadie más quiere resolver.',
+    'El detalle concreto se resuelve antes de que detenga todo lo demás.',
+    'Las intenciones son claras, pero nadie sostiene el día a día.'],
+ L:['Negocia con el día concreto: el catering llega tarde, el permiso de rodaje vence a las seis de la tarde, hay que mover toda la locación porque empezó a llover. No sueña la película ni la financia a gran escala — la sostiene, hora por hora, para que efectivamente ocurra un martes a las nueve de la mañana.',
+    'Es el liderazgo operativo puro. Un líder con esta cualidad entiende que la diferencia entre una visión inspiradora y un resultado real casi nunca es una estrategia nueva, sino la ejecución obstinada de los detalles pequeños que nadie más quiere resolver.'],
+ c:'El detalle que iba a frenarlo todo se resuelve sin ruido. La historia avanza.',
+ a:'Alguien resolvió, sin ruido, el detalle concreto que habría detenido todo lo demás. Esa ejecución obstinada — el permiso conseguido a tiempo, el imprevisto resuelto antes de que se notara — es la que convierte una intención en algo que efectivamente ocurrió.',
+ o:'Las intenciones estuvieron claras, pero nadie sostuvo el detalle operativo que las hace posibles en el día a día. Hay líderes que prefieren pensar en grande antes que ocuparse de lo pequeño y concreto.',
+ p:'Elige cada mañana la tarea pequeña que llevas más tiempo posponiendo y hazla primero, antes de lo urgente. Diez minutos. Es la que está frenando tres cosas más sin que lo notes.'},
+
+{id:'colorista',n:'Colorista',fam:'forma',fi:1,q:'Ajuste fino',d:['Matiz','Textura final'],
+ s:['Ajusta la temperatura de cada plano cuando todo el mundo cree que ya terminó.',
+    'Sabe que un resultado memorable rara vez pide una estrategia nueva, sino un ajuste final.',
+    'Alguien vuelve sobre el detalle final que nadie más habría notado.',
+    'La historia se entrega antes de perfeccionarla.'],
+ L:['Trabaja al final, cuando la película ya está montada y aprobada, ajustando la temperatura de cada plano: más cálido aquí, más gris allá, un matiz de piel corregido en una escena que de otro modo se vería distinta a la de al lado. Su trabajo no cambia lo que la escena cuenta — cambia cómo se siente al mirarla.',
+    'Es el liderazgo del matiz final. Un líder con esta cualidad sabe que la diferencia entre un resultado correcto y uno memorable rara vez está en una estrategia nueva, sino en el ajuste fino que se hace al final, cuando todo el mundo ya cree que el trabajo está terminado.'],
+ c:'Alguien vuelve sobre lo que ya estaba listo. Y ahí aparece la diferencia.',
+ a:'Cuando todo ya parecía terminado, alguien volvió sobre el detalle final: el matiz que nadie más habría notado, pero que separa un resultado correcto de uno que se queda. Ese último ajuste, casi invisible, es el que le da a esta historia su textura final.',
+ o:'La historia llegó a su corte final sin ese último ajuste — más urgente que impecable, más cruda que pulida. Hay líderes que prefieren entregar la escena antes que perfeccionarla.',
+ p:'Cuando algo esté terminado, no lo mandes. Déjalo dormir una noche y vuelve a mirarlo diez minutos al día siguiente. Ese es el margen entre correcto y memorable.'}
+];
+
+/* ═════════ HISTORIAS (tramas maestras) ═════════ */
+const STORIES = [
+{id:'travesia',n:'La travesía',plot:'Trama maestra · la búsqueda',
+ p:'Lo que hace falta no está aquí. Hay que salir a buscarlo, dejando atrás lo que ya funcionaba y sin garantía de volver con algo. Toda historia de aventura empieza con alguien que decide irse; en la vida real empieza con alguien que decide abrir un mercado nuevo, cambiar de carrera, montar algo desde cero, mudarse a otro país.',
+ line:'Alguien tiene que salir a buscar lo que aquí no existe.',
+ openT:'Nadie ha dado el primer paso',
+ open:['Todo lo que hay aquí ya se conoce. Funciona, da de comer, y hace tiempo que dejó de sorprender a alguien. Lo que se necesita para crecer está afuera, en un terreno que nadie del equipo ha pisado, y la única manera de llegar es dejando el mapa conocido a la espalda.',
+       'Frente a esto: elige tres roles. Cada uno le va a aportar una cualidad distinta a la salida.'],
+ b1T:'El terreno resultó más difícil de lo previsto',
+ b1:['Ya salieron. A la semana quedó claro que el mapa que traían no servía: lo que allá funcionaba, aquí no, y la gente empieza a preguntar en voz baja si valía la pena irse. Este es el punto donde la mayoría de las expediciones se devuelve.',
+     'Dos roles más entran ahora. Aquí es donde se decide si esto se sostiene o se vuelve una anécdota.'],
+ b2T:'Falta una decisión para llegar',
+ b2:['Está cerca. Se ve. Y justo ahí aparece la última decisión, la que ya no se puede repartir entre varios: quién carga el tramo final y con qué cualidad lo carga.'],
+ fo:'Esto hizo tu mirada con la travesía:',
+ fc:'Y esto es lo que dejaste atrás para poder llegar, aunque nadie te lo haya pedido.'},
+
+{id:'prueba',n:'La prueba',plot:'Trama maestra · el descenso',
+ p:'Todo se cae al mismo tiempo y hay que sostenerlo delante de gente que está mirando. El héroe de cualquier película llega a su hora más oscura: el momento en que ya no hay plan y solo queda quién es. En la vida real es la crisis que estalla un martes, el cliente que se va, el error que se hizo público, el equipo que se desarma en la peor semana.',
+ line:'Todo se cae a la vez, y alguien tiene que sostenerlo.',
+ openT:'La primera hora de la crisis',
+ open:['Ocurrió sin aviso. En una sola mañana se cayeron tres cosas que se creían firmes, y la gente ya está mirando hacia arriba esperando que alguien diga algo. Cualquier cosa que se diga en esta primera hora va a recordarse mucho después de que la crisis pase.',
+       'Frente a esto: elige tres roles. Con eso vas a responder al primer golpe.'],
+ b1T:'Lo peor no fue el primer golpe',
+ b1:['La primera respuesta sirvió para ganar aire, nada más. Ahora aparece lo que estaba debajo: el problema real, más viejo y más grande que el que estalló el martes. La gente ya no pregunta qué pasó — pregunta si esto tiene arreglo.',
+     'Dos roles más entran ahora. Aquí es donde una crisis se convierte en historia de superación o en historia de caída.'],
+ b2T:'Queda una decisión y todos la están mirando',
+ b2:['Lo peor ya pasó. Queda una última decisión, la que va a definir cómo se cuente esto dentro de un año: como el momento en que casi se pierde todo, o como el momento en que algo cambió para siempre.'],
+ fo:'Esto hizo tu mirada en la hora más oscura:',
+ fc:'Y esto es lo que decidiste no sostener, aunque todavía podías.'},
+
+{id:'traicion',n:'La traición',plot:'Trama maestra · el pacto roto',
+ p:'Alguien de adentro rompió lo que sostenía al grupo. No un enemigo externo: alguien en quien se confiaba. El cine lo repite desde siempre porque nada duele igual, y en la vida real es el socio que se fue con la idea, la persona que dijo por detrás lo que no dijo de frente, la promesa que se incumplió sin explicación.',
+ line:'Alguien de adentro rompió el pacto.',
+ openT:'Todos lo saben, nadie lo dice',
+ open:['Se supo el jueves. Nadie lo ha nombrado en voz alta, pero todas las conversaciones de esta semana lo tienen debajo: la gente mide sus palabras, se cuida, escribe correos que antes eran llamadas. El grupo sigue funcionando y algo esencial dejó de funcionar.',
+       'Frente a esto: elige tres roles. Con eso vas a decidir qué se hace primero con la grieta.'],
+ b1T:'La grieta cambió de forma',
+ b1:['No se cerró. Se movió. Ahora hay gente tomando bandos que ni siquiera estaban en el problema original, y la pregunta ya no es qué hizo esa persona sino con qué reglas sigue existiendo este grupo.',
+     'Dos roles más entran ahora. Aquí se decide si esto se remienda o se reconstruye desde otro lado.'],
+ b2T:'La última decisión sobre la confianza',
+ b2:['Queda una sola cosa por decidir, y es la que va a quedar en la memoria del equipo mucho más que el hecho original: cómo termina esto, y qué dice de lo que aquí se permite.'],
+ fo:'Esto hizo tu mirada con el pacto roto:',
+ fc:'Y esto es lo que decidiste no reparar, aunque todavía estaba a tu alcance.'},
+
+{id:'regreso',n:'El regreso',plot:'Trama maestra · la transformación',
+ p:'Se vuelve a un lugar que ya no es el mismo, o el mundo cambió mientras estabas de espaldas. Ulises regresa a Ítaca y nadie lo reconoce. En la vida real es volver después de una licencia larga, heredar un proyecto que otro construyó, o descubrir que la manera de trabajar que servía durante diez años dejó de servir en seis meses.',
+ line:'El mundo cambió mientras mirabas hacia otro lado.',
+ openT:'Nada está donde lo dejaste',
+ open:['Vuelves y el lugar tiene tu nombre pero no tus reglas. Las cosas que funcionaban por costumbre siguen ahí, sostenidas por gente que ya no recuerda por qué empezaron así, y afuera algo cambió lo suficiente como para que todo eso haya dejado de tener sentido.',
+       'Frente a esto: elige tres roles. Con eso vas a decidir qué conservas antes de entender del todo por qué existía.'],
+ b1T:'Lo viejo empieza a resistirse',
+ b1:['Lo que se conservó empieza a chocar con lo que se cambió. Hay gente que defiende el modo antiguo porque le costó años construirlo, y tiene razones. El cambio dejó de ser una idea y se volvió una negociación con personas concretas.',
+     'Dos roles más entran ahora. Aquí es donde una transformación se vuelve real o se queda en discurso.'],
+ b2T:'Una decisión separa lo nuevo de lo viejo',
+ b2:['Queda una última decisión, la que finalmente va a distinguir esta etapa de la anterior. Ya no se puede seguir operando como si nada hubiera cambiado de manos.'],
+ fo:'Esto hizo tu mirada con lo que encontraste al volver:',
+ fc:'Y esto es lo que dejaste morir, aunque nadie te haya pedido que lo protegieras.'}
+];
+
+/* ═════════ MIRADAS ═════════ */
+const MIRADAS = {
+'diseno+sosten':{n:'La mirada del arquitecto',
+ d:'Diseña la estructura invisible y además la construye con sus propias manos. No se conforma con imaginar el conjunto: calcula los recursos, ejecuta el plan, asume el riesgo de levantarlo en el mundo real. Es una mirada que confía poco en que otros materialicen su visión — prefiere sostenerla ella misma, de principio a fin.',
+ t:'Cuando esta mirada domina, lo que casi nunca entra en cuadro es cómo se siente lo construido, y quién exactamente debería sostenerlo. Vale la pena, la próxima vez, dejar que el ajuste fino o la selección humana entren a la conversación antes de que la estructura ya esté cerrada.'},
+'diseno+forma':{n:'La mirada del autor',
+ d:'Construye sentido y al mismo tiempo decide, con precisión, cómo se percibe ese sentido desde afuera. Tiene una voz reconocible: la misma mano que traza la estructura es la que ajusta el tono con que se cuenta. Es una mirada con firma propia, difícil de confundir con otra.',
+ t:'Lo que suele quedar fuera de esta mirada es el terreno operativo — los recursos, la ejecución concreta — y la elección fina de quién debería estar presente. Una voz reconocible no siempre es una voz que se sostiene sola en el día a día.'},
+'diseno+seleccion':{n:'La mirada del fundador',
+ d:'Construye la arquitectura del proyecto y, al mismo tiempo, decide con cuidado quién pertenece a él y qué identidad debería proyectar. Es la mirada de quien no solo diseña un sistema, sino que cuida con quién lo puebla. Suele generar culturas con un sello fuerte y reconocible desde temprano.',
+ t:'Esta mirada tiende a dejar fuera la ejecución diaria y el cuidado por cómo se siente lo construido, no solo por quién lo habita. Diseñar bien la casa y elegir bien a quién vive en ella no garantiza que alguien sostenga el mantenimiento diario.'},
+'forma+sosten':{n:'La mirada del artesano',
+ d:'Ejecuta con las manos y cuida, al mismo tiempo, el matiz final de lo que entrega. No le basta con que algo funcione: quiere que además se sienta bien terminado. Es una mirada que confía más en el oficio hecho con cuidado que en la gran declaración de intenciones.',
+ t:'Lo que rara vez aparece en esta mirada es la arquitectura de fondo — el porqué estructural de lo que se construye — y el criterio para decidir quién debería estar involucrado. Se puede terminar puliendo algo cuya estructura nunca se examinó.'},
+'seleccion+sosten':{n:'La mirada urgente',
+ d:'Ejecuta rápido y prioriza con dureza: decide qué recursos usar, qué riesgo tomar, y al mismo tiempo qué o quién se queda y qué se descarta. Es la mirada más cómoda dentro de una crisis, la que menos tiempo pierde deliberando sobre el sentido último de lo que está resolviendo.',
+ t:'Esta mirada suele dejar fuera la pregunta por la arquitectura de largo plazo y por cómo se siente, emocionalmente, lo que se decide tan rápido. Resolver bien y rápido no siempre deja tiempo para preguntar si se está resolviendo lo correcto.'},
+'forma+seleccion':{n:'La mirada del narrador',
+ d:'Cuida con la misma intensidad cómo se siente algo y quién debería contarlo. Elige el tono, elige a la persona, elige qué permanece — todo desde una sensibilidad fina hacia lo humano y lo perceptible. Es una mirada que rara vez se equivoca en el matiz, aunque no siempre construya el andamiaje que sostiene esa sensibilidad en el tiempo.',
+ t:'Lo que casi nunca entra en esta mirada es la estructura de fondo y la disciplina de ejecución diaria. Un tono bien logrado y una selección acertada no reemplazan la arquitectura que los sostiene cuando el proyecto crece.'},
+'nota':{n:'La mirada de una sola nota',
+ d:'Todo lo demás se disolvió frente a esta insistencia. Una sola forma de atención se llevó la mitad de las decisiones, mientras el resto se repartió, casi por cortesía, en partes mínimas e iguales. No es una mirada equilibrada ni pretende serlo: es la convicción de que una sola manera de prestar atención, llevada hasta el final, vale más que cualquier repartición cuidadosa.',
+ t:'Esta mirada tocó, aunque fuera apenas, los cuatro terrenos. Su punto ciego no es un territorio ausente sino la falta de una segunda voz que acompañe a la dominante con la misma fuerza. La próxima vez, deja que dos cualidades de un mismo terreno distinto convivan, en lugar de repartir el resto en gestos sueltos.'},
+'coral':{n:'La mirada coral',
+ d:'Tres formas distintas de prestar atención conviven casi en partes iguales, sin que ninguna se imponga. No hay solista: hay una decisión, deliberada o instintiva, de no apostar todo a una sola manera de liderar. El costo de ese equilibrio es preciso y total — un terreno entero queda fuera de cuadro, sin una sola cualidad representándolo.',
+ t:'A diferencia de las otras miradas, aquí el punto ciego no es parcial sino absoluto. Vale la pena nombrar sin rodeos cuál terreno quedó así de ausente, porque es el que esta mirada necesita pedir prestado con más urgencia la próxima vez.'}
+};
+
+/* nombres legibles de terreno, sin exponer la mecánica */
+const TERRENO = {
+  diseno:{n:'lo que se diseña antes', q:'visión, estructura y cultura'},
+  sosten:{n:'lo que sostiene el día', q:'recursos, ejecución y riesgo'},
+  forma:{n:'cómo se percibe', q:'perspectiva, tono y ajuste fino'},
+  seleccion:{n:'qué y quién se queda', q:'discernimiento, identidad y priorización'}
+};
+
+const PRACTICE = 'Un equipo tiene seis meses para sacar adelante algo que nunca ha hecho antes. La fecha ya se anunció por fuera y no se puede mover.';
+const EXAMPLES = [
+ {ids:['director','guionista','fotografia','editor','compositor'],t:'Salió con una voz propia',
+  d:'Este equipo supo desde el primer día hacia dónde iba y por qué. Cuando alguien proponía algo, tenían con qué compararlo. Lo que nunca resolvieron fue quién iba a conseguir el permiso que vencía el viernes.'},
+ {ids:['vestuario','casting','stunts','linea','colorista'],t:'Salió a tiempo y bien hecho',
+  d:'Sin un gran discurso de fondo, este equipo puso a cada quien donde rendía, resolvió los líos del día y cuidó cómo se veía el resultado. Entregaron. Nadie supo explicar del todo por qué valía la pena.'},
+ {ids:['productor','compositor','produccion','fotografia','editor'],t:'Se sintió bien antes de entenderse',
+  d:'Aquí cuidaron el ambiente y el ánimo desde el principio, y la gente quiso quedarse. El resultado se sintió acertado antes de que nadie pudiera explicar la lógica. La estructura la fueron encontrando a tientas.'}
+];
+
+const REACTS = ['🎬','✨','🔥','💛','👏','🤩','🎯','⭐'];
+const PAIR_KEY=(a,b)=>[a,b].sort().join('+');
+const HEXPTS='10,1 18.2,5.5 18.2,14.5 10,19 1.8,14.5 1.8,5.5';
+const GLYPH={
+ rodaje:c=>`<svg viewBox="0 0 20 20" fill="none"><rect x="2.5" y="4.5" width="15" height="11" rx="1.5" stroke="${c}" stroke-width="1.5"/><path d="M2.5 8h15M2.5 12h15" stroke="${c}" stroke-width="1.5" opacity=".4"/></svg>`,
+ lider:c=>`<svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.2" stroke="${c}" stroke-width="1.5"/><path d="M12.8 7.2 8.9 8.9 7.2 12.8 11.1 11.1z" fill="${c}"/></svg>`,
+ dentro:c=>`<svg viewBox="0 0 20 20"><polygon points="${HEXPTS}" fill="${c}"/></svg>`,
+ fuera:c=>`<svg viewBox="0 0 20 20"><polygon points="${HEXPTS}" fill="none" stroke="${c}" stroke-width="1.5" opacity=".55"/></svg>`
+};
+
+/* ═════════ ESTADO ═════════ */
+let state={story:null,act:1,picks:[],layout:[]};
+let HISTORY=[];                       // en memoria, dura toda la sesión
+const CUPO={1:3,2:2,3:1};
+const $=id=>document.getElementById(id);
+const roleById=id=>ROLES.find(r=>r.id===id);
+const famHex=r=>FAM[r.fam].hex[r.fi];
+const storyById=id=>STORIES.find(s=>s.id===id);
+
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));$(id).classList.add('on');window.scrollTo(0,0);}
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{if(b.dataset.go==='s-stories')renderStories();show(b.dataset.go);});
+
+/* ═════════ SVG PANAL ═════════ */
+function combSVG(cells,w){
+  const W=100,H=W*1.1547,G=W*0.052,RH=H*0.755,rows=4,cols=3;
+  const totalW=cols*W+(cols-1)*G+(W+G)/2, totalH=H+(rows-1)*RH;
+  let out=`<svg viewBox="0 0 ${totalW.toFixed(1)} ${totalH.toFixed(1)}" style="width:${w};height:auto" xmlns="http://www.w3.org/2000/svg">`;
+  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+    const i=r*cols+c, ox=c*(W+G)+(r%2===1?(W+G)/2:0), oy=r*RH;
+    const pts=[[.5,0],[1,.25],[1,.75],[.5,1],[0,.75],[0,.25]].map(([x,y])=>`${(ox+x*W).toFixed(1)},${(oy+y*H).toFixed(1)}`).join(' ');
+    out+=`<polygon points="${pts}" fill="${cells[i]||NEUTRAL}" data-off="${cells[i]?'0':'1'}" style="animation-delay:${i*36}ms"/>`;
+  }
+  return out+'</svg>';
+}
+
+/* ═════════ BIENVENIDA ═════════ */
+$('heroComb').innerHTML=combSVG(['#F2B01F',null,'#35BFAE',null,'#F4785C',null,null,'#B96FC4',null,'#17A091',null,'#E08A12'],'100%');
+
+/* ═════════ EJEMPLOS ═════════ */
+$('practicePremise').textContent=PRACTICE;
+$('exampleRail').innerHTML=EXAMPLES.map((ex,ei)=>{
+  const cells=Array(12).fill(null); const used=new Set();
+  ex.ids.forEach((id,k)=>{let pos=(ei*4+k*3+1)%12; while(used.has(pos))pos=(pos+1)%12; used.add(pos); cells[pos]=famHex(roleById(id));});
+  return `<div class="exc">
+    <div class="minicomb">${combSVG(cells,'112px')}</div>
+    <h3>${ex.t}</h3><p>${ex.d}</p>
+    ${ex.ids.map(id=>{const r=roleById(id);return `<div class="exrole"><span class="d" style="background:${famHex(r)}"></span><span class="rn">${r.n}</span><span class="rq">${r.q}</span></div>`;}).join('')}
+  </div>`;
+}).join('')+`<div class="exc" style="display:flex;align-items:center;justify-content:center;text-align:center;flex:0 0 60%">
+  <p style="margin:0;font-size:16px">Cinco roles.<br>Tres historias distintas.<br><b style="color:var(--ambar)">Tú vas a elegir seis.</b></p></div>`;
+
+/* ═════════ HISTORIAS + HISTORIAL ═════════ */
+function renderStories(){
+  const bar=$('historyBar');
+  bar.innerHTML = HISTORY.length
+    ? `<div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+         <button class="btn-mini" id="galleryFromStories">Mis diagnósticos · ${HISTORY.length}</button>
+         <button class="btn-mini" id="clearFromStories">Limpiar</button></div>` : '';
+  if(HISTORY.length){
+    $('galleryFromStories').onclick=()=>{renderGallery();show('s-gallery');};
+    $('clearFromStories').onclick=clearAll;
+  }
+  $('storyList').innerHTML=STORIES.map(s=>{
+    const h=HISTORY.find(x=>x.storyId===s.id);
+    const strip=h?`linear-gradient(to bottom,${h.colors.join(',')})`:'var(--miel-3)';
+    return `<button class="story-card${h?' done':''}" data-story="${s.id}" aria-pressed="false">
+      <span class="strip" style="background:${strip}"></span>
+      <div class="plot">${s.plot}</div>
+      <h3>${s.n}</h3><p>${s.p}</p>
+      ${h?`<div class="solved">La resolviste con <b>${h.qualities.join(', ')}</b>.<br>Te dio <b>${h.mirada}</b>.
+        <div class="qdots">${h.colors.map(c=>`<span style="background:${c}"></span>`).join('')}</div></div>`:''}
+    </button>`;}).join('');
+  document.querySelectorAll('[data-story]').forEach(b=>b.onclick=()=>{
+    document.querySelectorAll('[data-story]').forEach(x=>x.setAttribute('aria-pressed','false'));
+    b.setAttribute('aria-pressed','true');
+    state.story=storyById(b.dataset.story);
+    const done=HISTORY.some(x=>x.storyId===b.dataset.story);
+    $('storyGo').textContent=done?'Resolverla otra vez':'Comenzar esta historia';
+    $('storyGo').disabled=false;
+  });
+  $('storyGo').disabled=true; $('storyGo').textContent='Comenzar esta historia';
+}
+$('storyGo').onclick=()=>startRun();
+renderStories();
+
+/* ═════════ RONDA ═════════ */
+const shuffle=a=>{const x=a.slice();for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]];}return x;};
+
+function startRun(){
+  state.act=1;state.picks=[];state.layout=shuffle(ROLES.map(r=>r.id));
+  interstitial('Acto I',state.story.openT,state.story.open,()=>{renderComb();show('s-comb');});
+}
+function interstitial(act,title,paras,next){
+  $('interAct').textContent=act; $('interTitle').textContent=title;
+  $('interBody').innerHTML=paras.map((p,i)=>`<p class="${i===paras.length-1&&paras.length>1?'cue':''}">${p}</p>`).join('');
+  $('interGo').onclick=next; show('s-inter');
+}
+
+/* ═════════ COLMENA ═════════ */
+let tapTimer=null,lastTapId=null,lastTapAt=0;
+
+function renderComb(justId){
+  const cupo=CUPO[state.act], usados=state.picks.filter(p=>p.act===state.act).length, faltan=cupo-usados;
+  const nom={1:'Acto I',2:'Acto II',3:'Acto III'}[state.act];
+  $('progressTxt').innerHTML = faltan>0
+    ? `${nom} · <em>${state.act===3?'el rol final':'elige '+faltan}</em>`
+    : `${nom} · <em>completo</em>`;
+  $('pips').innerHTML=Array.from({length:6},(_,i)=>`<span class="pip${i<state.picks.length?' f':''}"></span>`).join('');
+
+  const grid=$('combGrid'); grid.innerHTML='';
+  for(let r=0;r<4;r++){
+    const row=document.createElement('div'); row.className='combrow'+(r%2===1?' off':'');
+    for(let c=0;c<3;c++){
+      const id=state.layout[r*3+c], role=roleById(id), picked=state.picks.some(p=>p.id===id);
+      const h=document.createElement('button');
+      h.className='hex'+(picked?' picked':'')+(id===justId?' just':'');
+      h.textContent=role.n;
+      if(picked)h.style.background=famHex(role);
+      h.setAttribute('aria-label',role.n+(picked?' — ya elegido':' — un toque para conocerlo, doble toque para elegirlo'));
+      h.onclick=()=>handleTap(id);
+      row.appendChild(h);
+    }
+    grid.appendChild(row);
+  }
+  renderReel();
+
+  const go=$('actGo');
+  if(faltan===0){
+    go.style.display='block';
+    go.textContent = state.act===3 ? 'Rodar la visión de mi historia' : (state.act===1?'Continuar al Acto II':'Continuar al Acto III');
+    go.className = state.act===3 ? 'btn btn-amber' : 'btn';
+    go.onclick=nextAct;
+  } else go.style.display='none';
+}
+
+/* un toque = ficha · doble toque = elegir */
+function handleTap(id){
+  const now=Date.now();
+  if(lastTapId===id && now-lastTapAt<330){
+    clearTimeout(tapTimer); lastTapId=null;
+    const picked=state.picks.some(p=>p.id===id);
+    const libre=state.picks.filter(p=>p.act===state.act).length < CUPO[state.act];
+    if(!picked && libre) pick(id); else openSheet(id);
+    return;
+  }
+  lastTapId=id; lastTapAt=now;
+  tapTimer=setTimeout(()=>{lastTapId=null; openSheet(id);},330);
+}
+
+function renderReel(){
+  const s=state.story, act=state.act;
+  const txt = act===1 ? s.open[0] : act===2 ? s.b1[0] : s.b2[0];
+  const ttl = act===1 ? s.openT : act===2 ? s.b1T : s.b2T;
+  const cls = act===2?' climax' : act===3?' final' : '';
+  const lbl = act===1?'Acto I — así empieza':'Acto II — así se complica';
+  const picks=state.picks.map(p=>roleById(p.id));
+  $('reel').className='reel'+cls;
+  $('reel').innerHTML=`
+    <div class="reel-act">${act===3?'Acto III — así se cierra':lbl}</div>
+    <h3>${ttl}</h3>
+    <p class="reel-text">${txt}</p>
+    ${picks.length?`<div class="reel-add"><div class="lbl">Lo que tu colmena le está aportando</div>
+      ${picks.map(r=>`<div class="contrib"><span class="cd" style="background:${famHex(r)}"></span>
+        <span class="ct"><b style="color:${famHex(r)}">${r.q}</b>${r.c}</span></div>`).join('')}</div>`:''}`;
+}
+
+function pick(id){
+  const r=roleById(id);
+  state.picks.push({id,act:state.act});
+  closeSheet();
+  const n = state.act===1 ? 6 : state.act===2 ? 9 : 14;
+  burst(r.q, famHex(r), state.act===3);
+  reactions(n);
+  setTimeout(()=>renderComb(id),300);
+}
+
+function burst(word,color,final){
+  const d=document.createElement('div'); d.className='burst';
+  d.innerHTML=`<span style="color:${color}">${final?'Y para cerrar:<br>':''}${word}</span>`;
+  document.body.appendChild(d); setTimeout(()=>d.remove(),1250);
+}
+function reactions(n){
+  for(let i=0;i<n;i++){
+    setTimeout(()=>{
+      const e=document.createElement('div'); e.className='react';
+      e.textContent=REACTS[Math.floor(Math.random()*REACTS.length)];
+      e.style.left=(12+Math.random()*72)+'vw';
+      e.style.top=(48+Math.random()*22)+'vh';
+      document.body.appendChild(e); setTimeout(()=>e.remove(),1600);
+    }, i*85);
+  }
+}
+
+function nextAct(){
+  if(state.act===1){state.act=2;interstitial('Acto II',state.story.b1T,state.story.b1,()=>{renderComb();show('s-comb');});}
+  else if(state.act===2){state.act=3;interstitial('Acto III',state.story.b2T,state.story.b2,()=>{renderComb();show('s-comb');});}
+  else {renderDiag();show('s-diag');}
+}
+
+/* ═════════ PANEL ═════════ */
+function closeSheet(){$('sheet').classList.remove('on');$('scrim').classList.remove('on');}
+$('scrim').onclick=closeSheet; $('sheetClose').onclick=closeSheet;
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet();});
+
+function openSheet(id){
+  const r=roleById(id), col=famHex(r);
+  const picked=state.picks.some(p=>p.id===id);
+  const puede=!picked && state.picks.filter(p=>p.act===state.act).length<CUPO[state.act] && $('s-comb').classList.contains('on');
+  $('sheet').style.borderTopColor=col;
+  $('sheetBody').innerHTML=`
+    <h3>${r.n}</h3>
+    <div class="keywords" style="color:${col}">${r.q} · ${r.d[0]} · ${r.d[1]}</div>
+    <div class="srow"><div class="g">${GLYPH.rodaje(col)}</div><div class="t"><b>En el rodaje</b>${r.s[0]}</div></div>
+    <div class="srow"><div class="g">${GLYPH.lider(col)}</div><div class="t"><b>El liderazgo que porta</b>${r.s[1]}</div></div>
+    <div class="srow"><div class="g">${GLYPH.dentro(col)}</div><div class="t"><b>Si lo eliges</b>${r.s[2]}</div></div>
+    <div class="srow"><div class="g">${GLYPH.fuera(col)}</div><div class="t"><b>Si queda afuera</b>${r.s[3]}</div></div>
+    <button class="more" id="moreBtn"><span class="plus">+</span><span id="moreLbl">Leer perfil completo</span></button>
+    <div class="longtext" id="longText">
+      <h4>Función en el rodaje</h4><p>${r.L[0]}</p>
+      <h4>El liderazgo que porta</h4><p>${r.L[1]}</p>
+      <h4>Lo que le aporta a una historia</h4><p>${r.a}</p>
+      <h4>Una práctica para sostenerlo</h4><p>${r.p}</p>
+    </div>
+    ${picked?`<div style="margin-top:14px;font-size:14px;font-weight:700;color:${col}">Ya está en tu colmena</div>`:''}
+    ${puede?`<button class="btn" id="pickBtn" style="background:${col};color:#fff">Elegir este rol</button>`:''}`;
+  $('moreBtn').onclick=()=>{
+    const lt=$('longText'), open=lt.classList.toggle('on');
+    $('moreLbl').textContent=open?'Ocultar perfil completo':'Leer perfil completo';
+    $('moreBtn').querySelector('.plus').textContent=open?'−':'+';
+    if(open) setTimeout(()=>lt.scrollIntoView({behavior:'smooth',block:'nearest'}),80);
+  };
+  if(puede)$('pickBtn').onclick=()=>pick(id);
+  $('sheet').classList.add('on');$('scrim').classList.add('on');$('sheet').scrollTop=0;
+}
+
+$('mapBtn').onclick=()=>{
+  $('sheet').style.borderTopColor='var(--miel-4)';
+  $('sheetBody').innerHTML=`<h3>Mapa de roles</h3>
+    <p style="font-size:14.5px;color:var(--tinta-2);margin-bottom:12px">Los doce roles y la cualidad que cada uno pone a trabajar.</p>
+    ${ROLES.map(r=>`<div class="maprow"><span class="dot" style="background:${famHex(r)}"></span><span class="n">${r.n}</span><span class="k">${r.q} · ${r.d[0]} · ${r.d[1]}</span></div>`).join('')}`;
+  $('sheet').classList.add('on');$('scrim').classList.add('on');$('sheet').scrollTop=0;
+};
+
+/* ═════════ MOTOR ═════════ */
+function computeMirada(picks){
+  const count={diseno:0,sosten:0,forma:0,seleccion:0};
+  picks.forEach(p=>count[roleById(p.id).fam]++);
+  const sorted=Object.entries(count).sort((a,b)=>b[1]-a[1]);
+  const dist=sorted.map(x=>x[1]).join('-');
+  let key = dist==='3-1-1-1'?'nota' : dist==='2-2-2-0'?'coral' : PAIR_KEY(sorted[0][0],sorted[1][0]);
+  return {key,mirada:MIRADAS[key],count,sorted,dist};
+}
+function lecturaCombinacion(sorted,dist,qualities){
+  const t1=TERRENO[sorted[0][0]], t2=TERRENO[sorted[1][0]];
+  if(dist==='2-2-2-0') return `Repartiste tu atención entre tres terrenos casi por igual y dejaste uno entero sin tocar: <b>${TERRENO[sorted[3][0]].n}</b>. Es una manera de liderar que no apuesta todo a una sola carta.`;
+  if(dist==='3-1-1-1') return `Concentraste la mitad de tus decisiones en <b>${t1.n}</b> y repartiste el resto en gestos sueltos. Es una apuesta fuerte por una sola manera de prestar atención.`;
+  return `Apoyaste esta historia sobre todo en <b>${t1.n}</b>, con <b>${t2.n}</b> haciéndole segunda. Entre las dos cargaron el peso de lo que decidiste.`;
+}
+
+/* ═════════ DIAGNÓSTICO ═════════ */
+function renderDiag(){
+  const {key,mirada,sorted,dist}=computeMirada(state.picks);
+  const chosen=state.picks.map(p=>roleById(p.id));
+  const ids=new Set(chosen.map(r=>r.id));
+  const off=ROLES.filter(r=>!ids.has(r.id));
+
+  $('diagComb').innerHTML=combSVG(state.layout.map(id=>ids.has(id)?famHex(roleById(id)):null),'min(62vw,235px)');
+  $('miradaName').textContent=mirada.n;
+  $('qgrid').innerHTML=chosen.map(r=>`<div class="qcard" style="background:${famHex(r)}"><div class="qn">${r.q}</div><div class="qr">${r.n}</div></div>`).join('');
+  $('paleta').innerHTML=chosen.map(r=>`<span style="background:${famHex(r)}"></span>`).join('');
+  $('readline').innerHTML=lecturaCombinacion(sorted,dist,chosen.map(r=>r.q));
+
+  let desc=mirada.d;
+  if(key==='coral')desc+=` Aquí el terreno que quedó completamente fuera fue ${TERRENO[sorted[3][0]].n} — ${TERRENO[sorted[3][0]].q}.`;
+  if(key==='nota')desc+=` Aquí, el terreno que se llevó la mitad de las decisiones fue ${TERRENO[sorted[0][0]].n}.`;
+  $('miradaDesc').textContent=desc;
+
+  $('frameOpen').textContent=state.story.fo;
+  $('fragments').innerHTML=chosen.map(r=>`<p>${r.a}</p>`).join('');
+  $('frameClose').textContent=state.story.fc;
+  $('planList').innerHTML=chosen.map(r=>`<div class="plan-item"><div class="ph"><span class="pd" style="background:${famHex(r)}"></span><b>${r.q}</b></div><p>${r.p}</p></div>`).join('');
+  $('offList').innerHTML=off.map(r=>`<div class="off-item"><span class="oh"></span><p><b>${r.n}.</b> ${r.o}</p></div>`).join('');
+  $('transitTxt').textContent=mirada.t;
+
+  HISTORY=HISTORY.filter(h=>h.storyId!==state.story.id);
+  HISTORY.push({storyId:state.story.id,storyName:state.story.n,plot:state.story.plot,
+    roles:chosen.map(r=>r.id), qualities:chosen.map(r=>r.q), colors:chosen.map(r=>famHex(r)),
+    mirada:mirada.n, lectura:lecturaCombinacion(sorted,dist,chosen.map(r=>r.q)),
+    layout:state.layout.slice()});
+  $('goGallery').style.display='block';
+}
+
+/* ═════════ GALERÍA ═════════ */
+function renderGallery(){
+  const g=$('galleryBody');
+  if(!HISTORY.length){g.innerHTML='<div class="empty">Todavía no has resuelto ninguna historia.</div>';return;}
+  let cross='';
+  if(HISTORY.length>=2){
+    const all=HISTORY.flatMap(h=>h.qualities);
+    const freq={}; all.forEach(q=>freq[q]=(freq[q]||0)+1);
+    const rep=Object.entries(freq).filter(([,v])=>v>=HISTORY.length).map(([k])=>k);
+    const nunca=ROLES.map(r=>r.q).filter(q=>!all.includes(q));
+    const pal=HISTORY.flatMap(h=>h.colors);
+    cross=`<div class="cross"><h3>Lo que se ve al comparar</h3>
+      <div class="paleta" style="margin:0 0 12px">${pal.map(c=>`<span style="background:${c}"></span>`).join('')}</div>
+      <p>Llevas ${HISTORY.length} ${HISTORY.length===1?'trama resuelta':'tramas resueltas'}, cada una con una mezcla distinta.</p>
+      ${rep.length?`<p>Hay cualidades a las que vuelves sin importar la trama: <b>${rep.join(', ')}</b>. Eso es un instinto, no una casualidad.</p>`:'<p>No repetiste ninguna cualidad en todas las tramas: tu manera de responder cambia con el tipo de conflicto.</p>'}
+      ${nunca.length?`<p>Y hay cualidades que no has puesto a trabajar en ninguna: <b>${nunca.join(', ')}</b>. Ahí está lo que todavía no probaste.</p>`:'<p>Ya pusiste a trabajar las doce cualidades al menos una vez.</p>'}</div>`;
+  }
+  g.innerHTML=cross+HISTORY.map(h=>`<div class="dgcard">
+    <div class="top"><div class="mc">${combSVG(h.layout.map(id=>h.roles.includes(id)?famHex(roleById(id)):null),'62px')}</div>
+      <div class="ti"><div class="st">${h.plot}</div><h3>${h.storyName}</h3><div style="font-size:14px;font-weight:700;color:var(--tinta-2)">${h.mirada}</div></div></div>
+    <div class="ql">La resolviste con <b>${h.qualities.join(', ')}</b>.</div>
+    <div class="rd">${h.lectura}</div></div>`).join('');
+}
+function clearAll(){
+  if(!confirm('¿Borrar todos tus diagnósticos y empezar de cero?'))return;
+  HISTORY=[]; renderStories(); renderGallery(); $('goGallery').style.display='none'; show('s-stories');
+}
+$('clearBtn').onclick=clearAll;
+$('goGallery').onclick=()=>{renderGallery();show('s-gallery');};
+$('dlBtn').onclick=()=>window.print();
+$('homeBtn').onclick=()=>{state.picks=[];state.act=1;state.story=null;renderStories();show('s-welcome');};
+</script>
+</body>
+</html>
